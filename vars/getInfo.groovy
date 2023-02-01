@@ -15,6 +15,8 @@ def call(Map config = [:]) {
         --namespace com.github.SpanningCloudApps.stitch \
         --max-results 1 \
         --sort-by PUBLISHED_TIME").trim())}
-        echo "${listRepo[defaultDisplayVersion]}"
+        $ for x in $listRepo; do
+            echo $x
+        done
         }
 
