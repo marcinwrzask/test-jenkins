@@ -5,7 +5,7 @@ def call(Map config = [:]) {
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        listRepo = script: sh "aws codeartifact list-package-versions \
+        listRepo = sh "aws codeartifact list-package-versions \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
