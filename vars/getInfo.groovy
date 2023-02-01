@@ -17,11 +17,11 @@ def call(Map config = [:]) {
         --sort-by PUBLISHED_TIME").trim())}
         println "The follow json obj is ${listRepo}" 
         listCheckedRepos = []
-        listRepo['defaultDisplayVersion'].each {r -> domain: r['domainName']}
+        listRepo['defaultDisplayVersion'].each {r -> domain: r['']}
 
         listRepo['defaultDisplayVersion'].each { r ->
-        codeartifactRepoRetetion(region: REGION, domain: r['domainName'])
-        listCheckedRepos << "${r['domainName']}"
+        codeartifactRepoRetetion(region: REGION, domain: r[''])
+        listCheckedRepos << "${r['']}"
         }
         }
 
