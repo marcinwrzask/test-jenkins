@@ -6,7 +6,7 @@ def call(Map config = [:]) {
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
         listRepo = readJSON(text: sh(returnStdout: true,
-         script: "aws codeartifact list-package-versions \
+        script: "aws codeartifact list-package-versions \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
@@ -15,6 +15,6 @@ def call(Map config = [:]) {
         --namespace com.github.SpanningCloudApps.stitch \
         --max-results 1 \
         --sort-by PUBLISHED_TIME").trim())
-        listRepo['versions']
+        listRepo[0]
         }
     }
