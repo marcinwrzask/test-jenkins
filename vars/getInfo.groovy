@@ -5,8 +5,7 @@ def call(Map config = [:]) {
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        listRepo = readJSON(text: sh(returnStdout: true,
-        script: "aws codeartifact list-package-versions \
+        listRepo = script: "aws codeartifact list-package-versions \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
@@ -14,14 +13,7 @@ def call(Map config = [:]) {
         --format maven \
         --namespace com.github.SpanningCloudApps.stitch \
         --max-results 1 \
-        --sort-by PUBLISHED_TIME").trim())}
+        --sort-by PUBLISHED_TIME"}
         println "The follow json obj is ${listRepo}" 
-        listCheckedRepos = []
-        listRepo['defaultDisplayVersion'].each {r -> domain: r['']}
-
-        listRepo['defaultDisplayVersion'].each { r ->
-        codeartifactRepoRetetion(region: REGION, domain: r[''])
-        listCheckedRepos << "${r['']}"
-        }
         }
 
