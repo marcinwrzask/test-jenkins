@@ -14,7 +14,7 @@ def call(Map config = [:]) {
         --format maven \
         --namespace com.github.SpanningCloudApps.stitch \
         --max-results 1 \
-        --sort-by PUBLISHED_TIME").trim())
-        listRepo[0]
+        --sort-by PUBLISHED_TIME").trim()),
+        sh 'listRepo[0]'
         }
     }
