@@ -14,8 +14,8 @@ def call(Map config = [:]) {
         --namespace com.github.SpanningCloudApps.stitch \
         --max-results 1 \
         --sort-by PUBLISHED_TIME \
-        --query "versions[*].[version]" \
-        --output text }
+        --query 'versions[*].[version]' \
+        --output text" }
         println "The follow json obj is ${listRepo}" 
         }
 
