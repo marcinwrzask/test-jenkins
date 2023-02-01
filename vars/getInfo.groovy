@@ -5,7 +5,7 @@ def call(Map config = [:]) {
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        listRepo = $(sh "aws codeartifact list-package-versions \
+        listRepo=$(echo "aws codeartifact list-package-versions \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
@@ -16,6 +16,6 @@ def call(Map config = [:]) {
         --sort-by PUBLISHED_TIME \
         --query 'versions[*].[version]' \
         --output json") }
-        println "The follow json obj is ${listRepo}" 
+        echo "${listRepo}" 
         }
 
