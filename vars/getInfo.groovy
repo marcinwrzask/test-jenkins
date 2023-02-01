@@ -5,9 +5,15 @@ def call(Map config = [:]) {
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        listRepo = sh(label: 'Repo list', script: "aws codeartifact list-package-versions --region us-east-1 --domain spanning --repository shared --package ${config.package} --format maven --namespace com.github.SpanningCloudApps.stitch --max-results 1 --sort-by PUBLISHED_TIME ", returnStdout: true)
-        repo_map = readJSON(text: listRepo)
+        listRepo = readJSON(text: sh(returnStdout: true,
+         script: "aws codeartifact list-package-versions \
+        --region us-east-1 \
+        --domain spanning \
+        --repository shared \
+        --package ${config.package} \
+        --format maven \
+        --namespace com.github.SpanningCloudApps.stitch \
+        --max-results 1 \
+        --sort-by PUBLISHED_TIME").trim())
         }
     }
-
-
