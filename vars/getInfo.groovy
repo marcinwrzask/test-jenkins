@@ -15,5 +15,5 @@ def call(Map config = [:]) {
         --namespace com.github.SpanningCloudApps.stitch \
         --max-results 1 \
         --sort-by PUBLISHED_TIME").trim())}
-        echo "$listRepo"
+        echo "$listRepo[0]["versions"][0]["version"]"
         }
