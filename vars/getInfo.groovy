@@ -17,6 +17,6 @@ def call(Map config = [:]) {
         --sort-by PUBLISHED_TIME \
         --query 'versions[*].[version, status]' \
         --output text""" )}
-        echo ${listRepo}
+        echo  "${listRepo}" 
         }
 
