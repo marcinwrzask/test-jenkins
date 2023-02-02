@@ -16,7 +16,6 @@ def call(Map config = [:]) {
         --max-results 1 \
         --sort-by PUBLISHED_TIME \
         --query 'versions[*].[version, status]' \
-        --output json""" )}
-        println "The follow json obj is ${listRepo}" 
+        --output text""" )}
         }
 
