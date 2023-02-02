@@ -12,5 +12,6 @@ def call(Map config = [:]) {
         --repository shared \
         --query 'packages[?package=='${config.package_name}'].format' \
         --output text""" )}
-        println "${formate}"
+        echo "${formate}"
+        println ${formate}
         }
