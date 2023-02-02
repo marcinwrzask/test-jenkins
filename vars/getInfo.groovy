@@ -32,6 +32,6 @@ def call(Map config = [:]) {
         --max-results 1 \
         --sort-by PUBLISHED_TIME \
         --output text \
-        --query "versions[*].[version] """").trim()}
+        --query "versions[*].[version]" """).trim() }
         echo "package version is: ${version}"
         }
