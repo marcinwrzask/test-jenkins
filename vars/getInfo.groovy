@@ -1,9 +1,8 @@
 def call(Map config = [:]) {
     def local = true
-    def remote = true
+    def remote = false
 
-
-if local:
+    if (local == true) {
     // access by credentials
     withCredentials([[
     $class: 'AmazonWebServicesCredentialsBinding',
@@ -39,4 +38,5 @@ if local:
         --output text \
         --query "versions[*].[version]" """).trim() }
         echo "Latest packge version is: ${version}"
-        }
+    }
+}
