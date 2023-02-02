@@ -2,7 +2,7 @@ def call(Map config = [:]) {
     def local = true
     def remote = false
 
-    if (local == true) {
+    if (local) {
     // access by credentials
     withCredentials([[
     $class: 'AmazonWebServicesCredentialsBinding',
