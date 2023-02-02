@@ -19,7 +19,7 @@ def call(Map config = [:]) {
         --output text""" )}
         sh """
         set -- $listRepo
-        echo $1
+        echo ${1}
         """
         }
 
