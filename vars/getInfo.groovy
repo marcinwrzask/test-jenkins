@@ -11,7 +11,7 @@ def call(Map config = [:]) {
         --domain spanning \
         --repository shared \
         --output text \
-        --query "packages[?package=='metrics-data'].format" """ )}
+        --query "packages[?package=='${config.packageName}'].format" """ )}
         echo "${config.packageName}"
         echo "${formate}"
         println "${formate}"
