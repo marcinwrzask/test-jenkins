@@ -18,8 +18,8 @@ def call(Map config = [:]) {
         --query 'versions[*].[version, status]' \
         --output text""" ).trim()}
         sh """
-        set -- $listRepo
-        echo ${1}
+        arr = ( $listRepo )
+        echo ${arr[0]}
         """
         }
 
