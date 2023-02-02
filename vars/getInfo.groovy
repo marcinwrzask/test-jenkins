@@ -5,14 +5,31 @@ def call(Map config = [:]) {
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        formate = sh(returnStdout: true, script: """#!/bin/bash
+        format = sh(returnStdout: true, script: """#!/bin/bash
         aws codeartifact list-packages \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
         --output text \
-        --query "packages[?package=='${config.packageName}'].format" """ )}
-        echo "${config.packageName}"
-        echo "${formate}"
-        println "${formate}"
+        --query "packages[?package=='${config.packageName}'].format" """).trim()
+
+        namespace = sh(returnStdout: true, script: """#!/bin/bash
+        aws codeartifact list-packages \
+        --region us-east-1 \
+        --domain spanning \
+        --repository shared \
+        --output text \
+        --query "packages[?package=='${config.packageName}'].namespace" """).trim()
+        
+        version = sh(returnStdout: true, script: """#!/bin/bash
+        aws codeartifact list-packages \
+        --region us-east-1 \
+        --domain spanning \
+        --repository shared \
+        --package ${config.packageName} \
+        --format ${format} \
+        --namespace ${namespace} \
+        --max-results 1 \
+        --sort-by PUBLISHED_TIME """).trim()}
+        echo "package version is: ${version}"
         }
