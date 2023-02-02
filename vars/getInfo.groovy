@@ -30,6 +30,8 @@ def call(Map config = [:]) {
         --format ${format} \
         --namespace ${namespace} \
         --max-results 1 \
-        --sort-by PUBLISHED_TIME """).trim()}
+        --sort-by PUBLISHED_TIME \
+        --output text \
+        --query "versions[*].[version] """").trim()}
         echo "package version is: ${version}"
         }
