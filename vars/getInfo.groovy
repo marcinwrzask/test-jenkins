@@ -18,7 +18,7 @@ def call(Map config = [:]) {
         --query 'versions[*].[version, status]' \
         --output text""" )}
         echo  "${listRepo}"
-        set -- $listRepo
+        set -- listRepo
         echo "$1" 
         }
 
