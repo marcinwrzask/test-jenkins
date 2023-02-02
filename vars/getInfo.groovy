@@ -5,13 +5,13 @@ def call(Map config = [:]) {
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        format = sh(returnStdout: true, script: """#!/bin/bash
+        formate = sh(returnStdout: true, script: """#!/bin/bash
         aws codeartifact list-packages \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
         --package ${config.package} \
-        --query packages[?package==`${config.package}`].format \
+        --query packages[?package=='${config.package}'].format \
         --output text""" )}
-        println "${format}"
+        println "${formate}"
         }
