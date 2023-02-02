@@ -11,7 +11,7 @@ def call(Map config = [:]) {
         --domain spanning \
         --repository shared \
         --package ${config.package} \
-        --query packages[?package=='shared'].format \
+        --query packages[?package=='${config.package}'].format \
         --output text""" )}
         println "${format}"
         }
