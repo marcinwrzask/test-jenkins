@@ -1,5 +1,10 @@
 def call(Map config = [:]) {
-    // potrzebne zmienne w zależnosci od projektu
+    def local = true
+    def remote = true
+
+
+if local:
+    // access by credentials
     withCredentials([[
     $class: 'AmazonWebServicesCredentialsBinding',
     credentialsId: 'aws-codeartifact',
@@ -33,5 +38,5 @@ def call(Map config = [:]) {
         --sort-by PUBLISHED_TIME \
         --output text \
         --query "versions[*].[version]" """).trim() }
-        echo "package version is: ${version}"
+        echo "Latest packge version is: ${version}"
         }
