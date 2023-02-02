@@ -9,9 +9,7 @@ def call(Map config = [:]) {
         aws codeartifact list-packages \
         --region us-east-1 \
         --domain spanning \
-        --repository shared \
-        --query 'packages[?package==${config.package_name}].format' \
-        --output text""" )}
+        --repository shared """ )}
         echo "${formate}"
         println "${formate}"
         }
