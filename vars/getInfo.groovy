@@ -5,21 +5,13 @@ def call(Map config = [:]) {
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        listRepo = sh(returnStdout: true, script: """#!/bin/bash
-        aws codeartifact list-package-versions \
+        format = sh(returnStdout: true, script: """#!/bin/bash
+        aws codeartifact list-packages \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
         --package ${config.package} \
-        --format maven \
-        --namespace com.github.SpanningCloudApps.stitch \
-        --max-results 1 \
-        --sort-by PUBLISHED_TIME \
-        --query 'versions[*].[version, status]' \
-        --output text""" ).trim()}
-        sh """
-        arr = ( $listRepo )
-        echo ${arr[0]}
-        """
+        --query packages[?package==`shared`].format \
+        --output text""" )}
+        println "${format}" "
         }
-
