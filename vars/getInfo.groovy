@@ -13,5 +13,5 @@ def call(Map config = [:]) {
         --package ${config.package} \
         --query packages[?package==`shared`].format \
         --output text""" )}
-        println "${format}" "
+        println "${format}"
         }
