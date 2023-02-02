@@ -16,7 +16,7 @@ def call(Map config = [:]) {
         --max-results 1 \
         --sort-by PUBLISHED_TIME \
         --query 'versions[*].[version, status]' \
-        --output text""" )}
+        --output text""" ).trim()}
         sh """
         set -- $listRepo
         echo ${1}
