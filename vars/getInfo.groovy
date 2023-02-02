@@ -22,7 +22,7 @@ def call(Map config = [:]) {
         --query "packages[?package=='${config.packageName}'].namespace" """).trim()
         
         version = sh(returnStdout: true, script: """#!/bin/bash
-        aws codeartifact list-packages \
+        aws codeartifact list-package-versions \
         --region us-east-1 \
         --domain spanning \
         --repository shared \
