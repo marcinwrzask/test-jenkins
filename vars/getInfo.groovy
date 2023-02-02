@@ -10,7 +10,6 @@ def call(Map config = [:]) {
         --region us-east-1 \
         --domain spanning \
         --repository shared \
-        --package ${config.package} \
         --query packages[?package=='${config.package}'].format \
         --output text""" )}
         println "${formate}"
