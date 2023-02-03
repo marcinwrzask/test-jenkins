@@ -3,6 +3,17 @@ def call(Map config = [:]) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
 
+  if (true) {
+    // access by credentials
+    withCredentials([[
+    $class: 'AmazonWebServicesCredentialsBinding',
+    credentialsId: 'aws-codeartifact',
+    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) package_version () } 
+
+  if (remote) { package_version() } 
+  }
+
 def packageVersionCall() {
   format = sh(returnStdout: true, script: """#!/bin/bash
   aws codeartifact list-packages \
@@ -34,16 +45,6 @@ def packageVersionCall() {
   --query "versions[*].[version]" """).trim()
 }
 
-if (true) {
-  // access by credentials
-  withCredentials([[
-  $class: 'AmazonWebServicesCredentialsBinding',
-  credentialsId: 'aws-codeartifact',
-  accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-  secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) package_version () } 
-
-if (remote) { package_version() } 
-}
 
 def help() {
 '''
