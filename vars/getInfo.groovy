@@ -15,37 +15,37 @@ def call(Map config = [:]) {
       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {packageVersionCall()} } 
 
   if (remote) { packageVersionCall } 
-  }
 
-def packageVersionCall () {
-  format = sh(returnStdout: true, script: """#!/bin/bash
-  aws codeartifact list-packages \
-  --region us-east-1 \
-  --domain spanning \
-  --repository shared \
-  --output text \
-  --query "packages[?package=='${config.packageName}'].format" """).trim()
+  def packageVersionCall () {
+    format = sh(returnStdout: true, script: """#!/bin/bash
+    aws codeartifact list-packages \
+    --region us-east-1 \
+    --domain spanning \
+    --repository shared \
+    --output text \
+    --query "packages[?package=='${config.packageName}'].format" """).trim()
 
-  namespace = sh(returnStdout: true, script: """#!/bin/bash
-  aws codeartifact list-packages \
-  --region us-east-1 \
-  --domain spanning \
-  --repository shared \
-  --output text \
-  --query "packages[?package=='${config.packageName}'].namespace" """).trim()
+    namespace = sh(returnStdout: true, script: """#!/bin/bash
+    aws codeartifact list-packages \
+    --region us-east-1 \
+    --domain spanning \
+    --repository shared \
+    --output text \
+    --query "packages[?package=='${config.packageName}'].namespace" """).trim()
 
-  sh(returnStdout: true, script: """#!/bin/bash
-  aws codeartifact list-package-versions \
-  --region us-east-1 \
-  --domain spanning \
-  --repository shared \
-  --package ${config.packageName} \
-  --format ${format} \
-  --namespace ${namespace} \
-  --max-results 1 \
-  --sort-by PUBLISHED_TIME \
-  --output text \
-  --query "versions[*].[version]" """).trim()}
+    sh(returnStdout: true, script: """#!/bin/bash
+    aws codeartifact list-package-versions \
+    --region us-east-1 \
+    --domain spanning \
+    --repository shared \
+    --package ${config.packageName} \
+    --format ${format} \
+    --namespace ${namespace} \
+    --max-results 1 \
+    --sort-by PUBLISHED_TIME \
+    --output text \
+    --query "versions[*].[version]" """).trim() }
+}
 
 def help() {
 '''
