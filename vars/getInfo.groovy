@@ -2,7 +2,8 @@ def call(Map config = [:]) {
   if (config['packageName'] == null) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
-  packageVersionCall()
+
+  
   if (true) {
     // access by credentials
     withCredentials([[
