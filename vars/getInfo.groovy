@@ -18,7 +18,7 @@ def call(Map config = [:]) {
   }
 
 def packageVersionCall () {
-  """format = sh(returnStdout: true, script: """#!/bin/bash
+  ""format = sh(returnStdout: true, script: """#!/bin/bash
   aws codeartifact list-packages \
   --region us-east-1 \
   --domain spanning \
@@ -45,7 +45,7 @@ def packageVersionCall () {
   --max-results 1 \
   --sort-by PUBLISHED_TIME \
   --output text \
-  --query "versions[*].[version]" """).trim() """}
+  --query "versions[*].[version]" """).trim() ""}
 
 def help() {
 '''
