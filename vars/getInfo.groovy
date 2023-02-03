@@ -5,7 +5,7 @@ def call(Map config = [:]) {
 
   def local = true
   def remote = false
-  def package_version {
+  def package_version_call () {
       format = sh(returnStdout: true, script: """#!/bin/bash
       aws codeartifact list-packages \
       --region us-east-1 \
