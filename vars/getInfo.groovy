@@ -2,16 +2,16 @@ def call(Map config = [:]) {
   if (config['packageName'] == null) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
-
+  packageVersionCall()
   if (true) {
     // access by credentials
     withCredentials([[
     $class: 'AmazonWebServicesCredentialsBinding',
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } } 
+    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) packageVersionCall() } 
 
-  if (remote) { { packageVersionCall() } } 
+  if (remote) { packageVersionCall() } 
   }
 
 def packageVersionCall() {
