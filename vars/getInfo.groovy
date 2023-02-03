@@ -3,7 +3,7 @@ def call(Map config = [:]) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
   if (config['credentialID'] == null) {
-    config.credentialID = 'aws-codeartifact'
+    config['credentialID'] = 'aws-codeartifact'
   }
 
 
