@@ -12,7 +12,7 @@ def call(Map config = [:]) {
       $class: 'AmazonWebServicesCredentialsBinding',
       credentialsId: 'aws-codeartifact',
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } } 
+      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {packageVersionCall()} } 
 
   if (remote) { packageVersionCall } 
   }
