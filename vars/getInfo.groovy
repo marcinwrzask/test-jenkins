@@ -2,10 +2,15 @@ def call(Map config = [:]) {
   if (config['packageName'] == null) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
-  if (config['credentialID'] == null) {
-    config['credentialID'] = 'aws-codeartifact'
+  if (config['credentialsID'] == null) {
+    config['credentialsID'] = 'aws-codeartifact'
   }
-
+  if (config['local'] == null) {
+    remote = true
+  }
+  if (config['local'] == 'true') {
+    remote = false
+  }
 
   def packageVersionCall = {
     format = sh(returnStdout: true, script: """#!/bin/bash
@@ -36,17 +41,13 @@ def call(Map config = [:]) {
     --sort-by PUBLISHED_TIME \
     --output text \
     --query "versions[*].[version]" """).trim()
-    echo "${version}"
     return version }
 
-  def local = true
-  def remote = false
-
-  if (local) {
+  if (config.local) {
     // access by credentials
     withCredentials([[
       $class: 'AmazonWebServicesCredentialsBinding',
-      credentialsId: config.credentialID,
+      credentialsId: config.credentialsID,
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } } 
 
@@ -57,14 +58,17 @@ def help() {
 '''
 --------------------------------------------------
 Help:
-  codeArtifactGetLatestDependencies is shared library provide.
+    codeArtifactGetLatestDependencies is shared library provide.
 
-  arguments:
-    - packageName                        - package name which should be selected in pipeline script
+    arguments:
+      - packageName                        - package name which should be selected in pipeline script
+      - credentialsID (optional)           - to run locally specify locall credentialsId (Dashboard->Credentials->System->Global credentials (unrestricted))
+      - local (optional)                   - to run locally specify local argument with value 'local'
+    usage:
+      codeArtifactGetLatestDependencies packageName: "metrics",
 
-  usage:
-    gitDiffBetweenCommits firstCommit: "jg3sj2lab",
-                          secondCommit: "123sjdal"
+    required plugins:
+      - CloudBees AWS Credentials
 --------------------------------------------------
 '''
 }
