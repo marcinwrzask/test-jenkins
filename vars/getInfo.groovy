@@ -36,6 +36,7 @@ def call(Map config = [:]) {
     --sort-by PUBLISHED_TIME \
     --output text \
     --query "versions[*].[version]" """).trim()
+    echo "${version}"
     return version }
 
   def local = true
