@@ -3,26 +3,28 @@ def call(Map config = [:]) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
 
+  def local = true
+  def remote =false
   
-  if (true) {
+  if (local) {
     // access by credentials
     withCredentials([[
     $class: 'AmazonWebServicesCredentialsBinding',
     credentialsId: 'aws-codeartifact',
     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) packageVersionCall() } 
+    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) packageVersionCall(config.packageName) } 
 
   if (remote) { packageVersionCall() } 
   }
 
-def packageVersionCall() {
+def packageVersionCall(packageName) {
   format = sh(returnStdout: true, script: """#!/bin/bash
   aws codeartifact list-packages \
   --region us-east-1 \
   --domain spanning \
   --repository shared \
   --output text \
-  --query "packages[?package=='${config.packageName}'].format" """).trim()
+  --query "packages[?package=='${packageName}'].format" """).trim()
 
   namespace = sh(returnStdout: true, script: """#!/bin/bash
   aws codeartifact list-packages \
@@ -30,14 +32,14 @@ def packageVersionCall() {
   --domain spanning \
   --repository shared \
   --output text \
-  --query "packages[?package=='${config.packageName}'].namespace" """).trim()
+  --query "packages[?package=='${packageName}'].namespace" """).trim()
 
   sh(returnStdout: true, script: """#!/bin/bash
   aws codeartifact list-package-versions \
   --region us-east-1 \
   --domain spanning \
   --repository shared \
-  --package ${config.packageName} \
+  --package ${packageName} \
   --format ${format} \
   --namespace ${namespace} \
   --max-results 1 \
