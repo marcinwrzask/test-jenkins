@@ -39,7 +39,7 @@ def call(Map config = [:]) {
         --query "versions[*].[version]" """).trim() }
         echo "Latest packge version is: ${version}"
     }
-    if (remote) {{
+    if (remote) {
         format = sh(returnStdout: true, script: """#!/bin/bash
         aws codeartifact list-packages \
         --region us-east-1 \
@@ -67,7 +67,7 @@ def call(Map config = [:]) {
         --max-results 1 \
         --sort-by PUBLISHED_TIME \
         --output text \
-        --query "versions[*].[version]" """).trim() }
+        --query "versions[*].[version]" """).trim()
         echo "Latest packge version is: ${version}"
     }
 }
