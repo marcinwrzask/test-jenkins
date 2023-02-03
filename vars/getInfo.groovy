@@ -12,13 +12,13 @@ def call(Map config = [:]) {
       $class: 'AmazonWebServicesCredentialsBinding',
       credentialsId: 'aws-codeartifact',
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']) packageVersionCall } 
+      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']) { packageVersionCall() } } 
 
   if (remote) { packageVersionCall } 
   }
 
-def packageVersionCall () {"""
-  format = sh(returnStdout: true, script: """#!/bin/bash
+def packageVersionCall () {
+  """format = sh(returnStdout: true, script: """#!/bin/bash
   aws codeartifact list-packages \
   --region us-east-1 \
   --domain spanning \
@@ -45,8 +45,7 @@ def packageVersionCall () {"""
   --max-results 1 \
   --sort-by PUBLISHED_TIME \
   --output text \
-  --query "versions[*].[version]" """).trim()
-"""}
+  --query "versions[*].[version]" """).trim() """}
 
 def help() {
 '''
