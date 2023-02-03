@@ -3,8 +3,6 @@ def call(Map config = [:]) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
 
-def local = true
-def remote = false
 def packageVersionCall() {
   format = sh(returnStdout: true, script: """#!/bin/bash
   aws codeartifact list-packages \
@@ -36,7 +34,7 @@ def packageVersionCall() {
   --query "versions[*].[version]" """).trim()
 }
 
-if (local) {
+if (true) {
   // access by credentials
   withCredentials([[
   $class: 'AmazonWebServicesCredentialsBinding',
