@@ -2,9 +2,9 @@ def call(Map config = [:]) {
   if (config['packageName'] == null) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
-  if (config['credentialID'] == null) {
-    config['credentialID'] = 'aws-codeartifact'
-  }
+  // if (config['credentialID'] == null) {
+  //   config['credentialID'] = 'aws-codeartifact'
+  // }
 
 
   def packageVersionCall = {
