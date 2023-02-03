@@ -1,5 +1,5 @@
 def call(Map config = [:]) {
-    def local = false
+    def local = true
     def remote = false
 
     if (local) {
