@@ -2,6 +2,7 @@ def call(Map config = [:]) {
   if (config['packageName'] == null) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
+
   def packageVersionCall = {
     format = sh(returnStdout: true, script: """#!/bin/bash
     aws codeartifact list-packages \
@@ -31,6 +32,7 @@ def call(Map config = [:]) {
     --sort-by PUBLISHED_TIME \
     --output text \
     --query "versions[*].[version]" """).trim()
+    echo "${version}"
     return version }
 
   def local = true
@@ -44,9 +46,7 @@ def call(Map config = [:]) {
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } } 
 
-  // if (remote) { packageVersionCall } 
-
-
+   if (remote) { { packageVersionCall() } } 
 }
 
 def help() {
