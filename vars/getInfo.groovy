@@ -16,7 +16,7 @@ def call(Map config = [:]) {
 
   if (remote) { packageVersionCall } 
 
-  def packageVersionCall () {
+  def packageVersionCall = {
     format = sh(returnStdout: true, script: """#!/bin/bash
     aws codeartifact list-packages \
     --region us-east-1 \
@@ -33,7 +33,7 @@ def call(Map config = [:]) {
     --output text \
     --query "packages[?package=='${config.packageName}'].namespace" """).trim()
 
-    sh(returnStdout: true, script: """#!/bin/bash
+    return sh(returnStdout: true, script: """#!/bin/bash
     aws codeartifact list-package-versions \
     --region us-east-1 \
     --domain spanning \
