@@ -2,20 +2,6 @@ def call(Map config = [:]) {
   if (config['packageName'] == null) {
   error(['"packageName" argument is mandatory', help()].join("\n"))
   }
-
-  def local = true
-  def remote = false
-  packageVersionCall()
-  if (local) {
-    // access by credentials
-    withCredentials([[
-      $class: 'AmazonWebServicesCredentialsBinding',
-      credentialsId: 'aws-codeartifact',
-      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {packageVersionCall()} } 
-
-  if (remote) { packageVersionCall } 
-
   def packageVersionCall = {
     format = sh(returnStdout: true, script: """#!/bin/bash
     aws codeartifact list-packages \
@@ -33,7 +19,7 @@ def call(Map config = [:]) {
     --output text \
     --query "packages[?package=='${config.packageName}'].namespace" """).trim()
 
-    return sh(returnStdout: true, script: """#!/bin/bash
+    version = sh(returnStdout: true, script: """#!/bin/bash
     aws codeartifact list-package-versions \
     --region us-east-1 \
     --domain spanning \
@@ -44,7 +30,23 @@ def call(Map config = [:]) {
     --max-results 1 \
     --sort-by PUBLISHED_TIME \
     --output text \
-    --query "versions[*].[version]" """).trim() }
+    --query "versions[*].[version]" """).trim()
+    return version }
+
+  def local = true
+  def remote = false
+
+  if (local) {
+    // access by credentials
+    withCredentials([[
+      $class: 'AmazonWebServicesCredentialsBinding',
+      credentialsId: 'aws-codeartifact',
+      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) packageVersionCall() } 
+
+  // if (remote) { packageVersionCall } 
+
+
 }
 
 def help() {
