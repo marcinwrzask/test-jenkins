@@ -50,7 +50,6 @@ def call(Map config = [:]) {
       credentialsId: config.credentialsID,
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } 
-    return version
   } 
 
   if (remote) {
