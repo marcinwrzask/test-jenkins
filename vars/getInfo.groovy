@@ -3,7 +3,9 @@ def call(Map config = [:]) {
     error(['"packageName" argument is mandatory', help()].join('\n'))
   }
   if (config['credentialsID'] == null) {
-    config['credentialsID'] = 'aws-codeartifact'
+    awsCredendialsID = 'aws-codeartifact'
+  } else {
+    awsCredendialsID = config['credentialsID']
   }
 
   def packageVersionCall = {
@@ -41,7 +43,7 @@ def call(Map config = [:]) {
     // access by credentials
     withCredentials([[
       $class: 'AmazonWebServicesCredentialsBinding',
-      credentialsId: config.credentialsID,
+      credentialsId: awsCredendialsID,
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() }
   } else {
