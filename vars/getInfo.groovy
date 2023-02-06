@@ -41,7 +41,6 @@ def call(Map config = [:]) {
     --sort-by PUBLISHED_TIME \
     --output text \
     --query "versions[*].[version]" """).trim()
-    return packageVersion
   }
 
   if (config.local) {
