@@ -40,7 +40,7 @@ def packageVersionCall = {
     --query "versions[*].[version]" """).trim()
 }
 
-  if (config.useAwsInstanceProfile) {
+  if (config.useAwsLocally) {
     // access by credentials
     withCredentials([[
       $class: 'AmazonWebServicesCredentialsBinding',
@@ -53,7 +53,6 @@ def packageVersionCall = {
   } else {
     packageVersionCall()
   }
-  echo "${packageVersion}"
   return packageVersion
 }
 
@@ -66,7 +65,7 @@ Help:
     arguments:
       - packageName                        - package name which should be selected in pipeline script
       - credentialsID (optional)           - to run locally specify locall credentialsId (Dashboard->Credentials->System->Global credentials (unrestricted))
-      - useAwsInstanceProfile (optional)   - to run locally specify useAwsInstanceProfile argument with value 'true' otherwise the script will run remotly 
+      - useAwsLocally (optional)           - to run locally specify useAwsLocally argument with true value or not null value otherwise the script will run remotly 
     usage:
       codeArtifactGetLatestPackageVersion packageName: "metrics",
 
