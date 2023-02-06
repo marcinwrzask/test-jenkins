@@ -56,7 +56,7 @@ def call(Map config = [:]) {
   if (remote) {
     packageVersionCall() 
   } 
-  echo "${version}"
+  println "${version}"
   return version
 }
 
