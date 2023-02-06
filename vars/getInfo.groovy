@@ -40,16 +40,16 @@ def packageVersionCall = {
     --query "versions[*].[version]" """).trim()
 }
 
-  if (config.useAwsInstanceProfile == false) {
+  if (config.useAwsInstanceProfile) {
     // access by credentials
     withCredentials([[
       $class: 'AmazonWebServicesCredentialsBinding',
       credentialsId: awsCredendialsID,
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-      ]]) {
-        packageVersionCall()
-        }
+    ]]) {
+      packageVersionCall()
+    }
   } else {
     packageVersionCall()
   }
@@ -61,14 +61,14 @@ def help() {
   '''
 --------------------------------------------------
 Help:
-    codeArtifactGetLatestDependencies is shared library provide.
+    codeArtifactGetLatestPackageVersion retrieves informations about latest version of the selected package from CodeArtifact repository.
 
     arguments:
       - packageName                        - package name which should be selected in pipeline script
       - credentialsID (optional)           - to run locally specify locall credentialsId (Dashboard->Credentials->System->Global credentials (unrestricted))
-      - typeAwsCredentials (optional)      - to run locally specify local argument with value 'true'
+      - useAwsInstanceProfile (optional)   - to run locally specify useAwsInstanceProfile argument with value 'true' otherwise the script will run remotly 
     usage:
-      codeArtifactGetLatestDependencies packageName: "metrics",
+      codeArtifactGetLatestPackageVersion packageName: "metrics",
 
     required plugins:
       - CloudBees AWS Credentials
