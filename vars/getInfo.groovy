@@ -45,11 +45,7 @@ def call(Map config = [:]) {
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() }
   } else {
-    try {
-      packageVersionCall()
-    } catch (Exception ex) {
-      error ("Unable to locate credentials. Conncet with aws profile instance correctly Exceotuib =${ex} \n ${help()}")
-    }
+    packageVersionCall()
   }
   echo "${packageVersion}"
   return packageVersion
