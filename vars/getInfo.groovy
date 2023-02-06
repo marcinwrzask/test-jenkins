@@ -1,15 +1,9 @@
 def call(Map config = [:]) {
   if (config['packageName'] == null) {
-    error(['"packageName" argument is mandatory', help()].join("\n"))
+    error(['"packageName" argument is mandatory', help()].join('\n'))
   }
   if (config['credentialsID'] == null) {
     config['credentialsID'] = 'aws-codeartifact'
-  }
-  if (config['local'] == null) {
-    remote = true
-  }
-  if (config['local'] == 'true') {
-    remote = false
   }
 
   def packageVersionCall = {
@@ -43,24 +37,22 @@ def call(Map config = [:]) {
     --query "versions[*].[version]" """).trim()
   }
 
-  if (config.local) {
+  if (config.useAwsInstanceProfile == false) {
     // access by credentials
     withCredentials([[
       $class: 'AmazonWebServicesCredentialsBinding',
       credentialsId: config.credentialsID,
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } 
-  } 
-
-  if (remote) {
-    packageVersionCall() 
-  } 
+      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() }
+  } else {
+    packageVersionCall()
+  }
   echo "${packageVersion}"
   return packageVersion
 }
 
 def help() {
-'''
+  '''
 --------------------------------------------------
 Help:
     codeArtifactGetLatestDependencies is shared library provide.
@@ -68,7 +60,7 @@ Help:
     arguments:
       - packageName                        - package name which should be selected in pipeline script
       - credentialsID (optional)           - to run locally specify locall credentialsId (Dashboard->Credentials->System->Global credentials (unrestricted))
-      - local (optional)                   - to run locally specify local argument with value 'true'
+      - typeAwsCredentials (optional)      - to run locally specify local argument with value 'true'
     usage:
       codeArtifactGetLatestDependencies packageName: "metrics",
 
