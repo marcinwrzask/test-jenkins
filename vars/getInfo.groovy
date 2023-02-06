@@ -1,6 +1,6 @@
 def call(Map config = [:]) {
   if (config['packageName'] == null) {
-  error(['"packageName" argument is mandatory', help()].join("\n"))
+    error(['"packageName" argument is mandatory', help()].join("\n"))
   }
   if (config['credentialsID'] == null) {
     config['credentialsID'] = 'aws-codeartifact'
@@ -41,7 +41,7 @@ def call(Map config = [:]) {
     --sort-by PUBLISHED_TIME \
     --output text \
     --query "versions[*].[version]" """).trim()
-    return version }
+  }
 
   if (config.local) {
     // access by credentials
@@ -49,9 +49,15 @@ def call(Map config = [:]) {
       $class: 'AmazonWebServicesCredentialsBinding',
       credentialsId: config.credentialsID,
       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } } 
+      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { packageVersionCall() } 
+    return version
+  } 
 
-  if (remote) { packageVersionCall() } 
+  if (remote) {
+    packageVersionCall() 
+  } 
+  echo "${version}"
+  return version
 }
 
 def help() {
@@ -63,7 +69,7 @@ Help:
     arguments:
       - packageName                        - package name which should be selected in pipeline script
       - credentialsID (optional)           - to run locally specify locall credentialsId (Dashboard->Credentials->System->Global credentials (unrestricted))
-      - local (optional)                   - to run locally specify local argument with value 'local'
+      - local (optional)                   - to run locally specify local argument with value 'true'
     usage:
       codeArtifactGetLatestDependencies packageName: "metrics",
 
